@@ -165,7 +165,7 @@
         let user = JSON.parse(window.localStorage.getItem('access-user'));
         var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,storeId: this.storeId,
           tableId: this.ruleForm.tableId,personNum: this.ruleForm.persons,
-          source: 2,payType : 1, status : 1,orderInfos: this.selectFoods});
+          source: 2,payType : 1,orderInfos: this.selectFoods});
 
         //添加订单
         API.POST(URL.ADD_ORDER, param)

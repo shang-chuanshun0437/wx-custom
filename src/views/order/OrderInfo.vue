@@ -57,9 +57,10 @@
           </template>
         </el-table-column>
         <el-table-column width="180" prop="createTime" label="订单日期" align="center"></el-table-column>
-        <el-table-column width="120" label="操作" align="center">
+        <el-table-column width="120"  label="操作" align="center">
           <template slot-scope="scope">
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+            <el-button v-if = "scope.row.realPrice != 0" size="mini" type="danger" disabled>删除</el-button>
+            <el-button v-else  size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -19,11 +19,11 @@
           <el-menu-item index="/user/device/unmanage" style = "font-size: 16px;">
             <span > 扫码订单 </span>
           </el-menu-item>
-          <el-menu-item index="/user/device/unmanage" style = "font-size: 16px;">
-            <span > 完成订单 </span>
+          <el-menu-item index="/user/store/list/storeInfo/CompleteOrder" style = "font-size: 16px;">
+            <span > 已完成订单 </span>
           </el-menu-item>
           <el-menu-item index="/user/device/unmanage" style = "font-size: 16px;">
-            <span > 订单列表 </span>
+            <span > 销售分析 </span>
           </el-menu-item>
           <el-menu-item index="/user/device/unmanage" style = "font-size: 16px;">
             <span > 会员管理 </span>

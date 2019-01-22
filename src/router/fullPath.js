@@ -21,6 +21,7 @@ import FrontDeskOrder from '../views/order/FrontDeskOrder'
 import OrderInfo from '../views/order/OrderInfo'
 import AddOrder from '../views/order/AddOrder'
 import AddOrderInfo from '../views/order/AddOrderInfo'
+import CompleteOrder from '../views/order/CompleteOrder'
 
 import User from '../views/user/User'
 import UserList from '../views/user/UserList'
@@ -83,6 +84,7 @@ let router = new Router({
               { path: '/user/store/list/storeInfo/editTable', component: EditStoreTable, name: 'editStoreTable' },
               { path: '/user/store/list/storeInfo/frontDeskOrder', component: FrontDeskOrder, name: 'frontDeskOrder' },
               { path: '/user/store/list/storeInfo/frontDeskOrder/orderInfo', component: OrderInfo, name: 'orderInfo' },
+              { path: '/user/store/list/storeInfo/CompleteOrder', component: CompleteOrder, name: 'completeOrder' },
             ]
         },
       { path: '/user/store/list/storeInfo/addOrder', component: AddOrder, name: 'addOrder' },
