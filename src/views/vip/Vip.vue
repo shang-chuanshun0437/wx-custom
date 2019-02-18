@@ -1,26 +1,17 @@
 <template>
-  <div>
-    <div v-if="show==1">
-      <MyStoreLeftSideNav></MyStoreLeftSideNav>
+    <div>
+      <VipLeftSideNav></VipLeftSideNav>
     </div>
-    <div v-if="show==2">
-      <StoreInfoLeftSideNav></StoreInfoLeftSideNav>
-    </div>
-  </div>
 </template>
 
 <script>
 
-import MyStoreLeftSideNav from './MyStoreLeftSideNav';
-import StoreInfoLeftSideNav from './StoreInfoLeftSideNav';
-
-import { mapState } from "vuex";
+import VipLeftSideNav from './VipLeftSideNav';
 
 export default {
-  name: 'Store',
+  name: 'Vip',
   components: {
-    MyStoreLeftSideNav,
-    StoreInfoLeftSideNav,
+    VipLeftSideNav,
   },
   data() {
     return {
@@ -28,13 +19,10 @@ export default {
     };
   },
   computed: {
-    ...mapState("leftSideSelect", {
-      show: state => state.show,
-    }),
+
   },
   created() {
-    let leftSideSelect = JSON.parse(window.localStorage.getItem('leftSideSelect'));
-    this.$store.dispatch("leftSideSelect/list",leftSideSelect.show);
+
   },
 }
 </script>

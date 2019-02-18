@@ -2,19 +2,16 @@
   <el-row class="store">
     <el-col :span="3" style="height: 100%">
       <el-menu :default-active="$route.path" router text-color="#000000" class="storeNav" >
-        <el-submenu index="/user/device">
+        <el-submenu index="/user/store/vip">
           <template slot="title">
             <i class="el-icon-ali-putong"></i>
-            <span style = "font-size: 16px;" > 我的店铺</span>
+            <span style = "font-size: 16px;" > 会员管理</span>
           </template>
-          <el-menu-item index="/user/store/list" style = "font-size: 16px;">
-            <span > 店铺列表 </span>
+          <el-menu-item index="/user/store/vip/list" style = "font-size: 16px;">
+            <span > 会员列表 </span>
           </el-menu-item>
-          <el-menu-item index="/user/device/unmanage" style = "font-size: 16px;">
-            <span > 销售统计 </span>
-          </el-menu-item>
-          <el-menu-item index="/user/device/unmanage" style = "font-size: 16px;">
-            <span > 订单列表 </span>
+          <el-menu-item index="/user/store/vip/vipStatistics" style = "font-size: 16px;">
+            <span > 会员统计 </span>
           </el-menu-item>
         </el-submenu>
       </el-menu>

@@ -23,8 +23,12 @@ export const MENU_LIST = "MENU_LIST";
 //订单
 export const ORDER_LIST = "ORDER_LIST";
 export const ORDER_INFO_LIST = "ORDER_INFO_LIST";
+
 //子用户
 export const DEVICE_USER_LIST = "DEVICE_USER_LIST";
+
+//会员
+export const VIP_LIST = "VIP_LIST";
 
 //头部导航栏是否显示
 export const TOP_SHOW = "TOP_SHOW";

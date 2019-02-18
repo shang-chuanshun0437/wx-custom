@@ -18,18 +18,18 @@ const actions = {
 
     list({ commit }, param) {
         return new Promise((resolve, reject) => {
-            commit(types.STORE_LIST, param);
+            commit(types.VIP_LIST, param);
         });
     },
 };
 
 const mutations = {
-    [types.STORE_LIST](state, param) {
+    [types.VIP_LIST](state, param) {
         state.total = param.total;
         if (param.total === 0) {
             state.list = null;
         } else {
-            state.list = [].concat(param.stores);
+            state.list = [].concat(param.vipVisitors);
         }
     },
 };

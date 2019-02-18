@@ -1,48 +1,39 @@
 /*
  * Author: 阿甘
  * Email:519983770@qq.com
- *前台点餐
+ *会员管理
  */
 <template>
-  <div class="frontDeskOrder">
+  <div class="vip">
     <div class="headNav">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">前台点餐</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/user/store/vip/list' }" style="font-size: 17px;">会员管理</el-breadcrumb-item>
+        <el-breadcrumb-item style="font-size: 17px;">会员列表</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div style="position: relative;top: 40px;width: 100%;height: 100%">
       <el-row >
-        <el-col :span="20" style="position: relative;left: 30px">
+        <el-col :span="17" style="position: relative;left: 30px">
           <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
         </el-col>
         <el-col :span="2"  align="center">
-          <el-button type="primary" icon="el-icon-plus" @click="addOrder()">点餐</el-button>
+          <el-button type="primary" icon="el-icon-plus" @click="addVip()">添加会员</el-button>
         </el-col>
       </el-row>
       <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column width="200" prop="orderId" label="订单编号" align="center"></el-table-column>
-        <el-table-column width="100" prop="tableId" label="餐桌编号" align="center"></el-table-column>
-        <el-table-column width="100" prop="personNum" label="就餐人数" align="center"></el-table-column>
-        <el-table-column width="100" prop="amount" align="center" label="订单金额" ></el-table-column>
-        <el-table-column width="120px" prop="vipAmount" label="会员金额" align="center"></el-table-column>
-        <el-table-column width="100" prop="realAmount" label="实收金额" align="center"></el-table-column>
-        <el-table-column width="180" prop="payType" label="支付方式" align="center">
+        <el-table-column width="80" prop="id" label="ID" align="center"></el-table-column>
+        <el-table-column width="160" prop="vipId" label="会员编号" align="center"></el-table-column>
+        <el-table-column width="140" prop="realAmount" label="会员充值金额" align="center"></el-table-column>
+        <el-table-column width="80" prop="consumCount" align="center" label="消费次数" ></el-table-column>
+        <el-table-column width="180" prop="updateTime" align="center" label="最近一次消费" ></el-table-column>
+        <el-table-column width="180" prop="validTime" align="center" label="有效期" ></el-table-column>
+        <el-table-column width="180" prop="createTime" label="添加日期" align="center"></el-table-column>
+        <el-table-column width="280" label="操作" align="center">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.payType===1" type="success">未支付</el-tag>
-            <el-tag v-else-if="scope.row.payType===2" type="info">前台支付</el-tag>
-            <el-tag v-else-if="scope.row.payType===3" type="danger">支付宝支付</el-tag>
-            <el-tag v-else-if="scope.row.payType===4" type="danger">微信支付</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column width="180" prop="createTime" label="订单日期" align="center"></el-table-column>
-        <el-table-column width="180" label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="orderInfo(scope.row)">查看详情</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.orderId,scope.row.tableId)">删除</el-button>
+            <el-button size="mini" type="success" @click="edit(scope.row)">修改</el-button>
+            <el-button size="mini" @click="consumeRecord(scope.row.vipId)">消费记录</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.row.vipId)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -51,20 +42,24 @@
         </el-pagination>
       </el-row>
     </div>
+    <AddVip :show.sync="addVipShow"></AddVip>
+    <EditVip :show.sync="editVipShow" :row.sync="selected"></EditVip>
   </div>
 </template>
 
 <script>
 import SearchForm from "../common/SearchForm";
+import AddVip from "./AddVip";
+import EditVip from "./EditVip";
 import { mapState } from "vuex";
 import * as API from "../../axios/api";
 import * as URL from "../../axios/url";
 const searchData = [
   {
-    name: "餐桌编号",
+    name: "会员编号",
     type: "input",
-    placeholder: "请输入餐桌编号",
-    key: "tableId"
+    placeholder: "请输入会员编号",
+    key: "vipId"
   },
   {
     name: "开始时间",
@@ -82,49 +77,49 @@ const searchData = [
 export default {
   components: {
     SearchForm,
+    AddVip,
+    EditVip
   },
   computed: {
-    ...mapState("storeOrder", {
+    ...mapState("vip", {
       total: state => state.total,
       list: state => state.list
-    })
+    }),
+    selected(){
+      return this.row;
+    }
   },
   data() {
     return {
       loading: false,
       currentPage: 1,
       searchData: searchData,
-      storeId: "",
-      storeName: "未知",
+      addVipShow: false,
+      editVipShow: false,
+      row: "",
       filters: {
-        tableId: "",
-        payType: "",
+        vipId: "",
         beginTime: "",
         endTime: "",
       },
     };
   },
   created() {
-    this.$store.dispatch("leftSideSelect/list",2);
-    let storeIdAndName = JSON.parse(window.localStorage.getItem('storeIdAndName'));
-    this.storeId = storeIdAndName.storeId;
-    this.storeName = storeIdAndName.storeName;
     this.refresh();
   },
   methods: {
     refresh() {
       console.log('refresh');
       let user = JSON.parse(window.localStorage.getItem('access-user'));
-      var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,storeId: this.storeId ,
-        tableId: this.filters.tableId ,payType: 1 ,beginTime: this.filters.beginTime ,
-        endTime: this.filters.endTime ,source: 2, currentPage: this.currentPage });
+      var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,vipId: this.filters.vipId,
+        beginTime: this.filters.beginTime , endTime: this.filters.endTime, currentPage: this.currentPage });
 
-      //查询订单列表
-      API.POST(URL.QUERY_ORDER, param)
+      //查询会员列表
+      API.POST(URL.QUERY_VIP, param)
         .then(res => {
           if (res.result.retCode === 0) {
             this.loading = false;
-            this.$store.dispatch("storeOrder/list",res);
+            this.$store.dispatch("vip/list",res);
           }
         })
         .catch(err => {
@@ -135,54 +130,46 @@ export default {
 
     handleSearch(params) {
       this.filters=Object.assign({},params);
-      if (this.filters.payType == '未支付'){
-        this.filters.payType = 1;
-      }else if (this.filters.payType == '前台支付'){
-        this.filters.payType = 2;
-      }
       this.refresh();
     },
-    addOrder() {
-      this.$router.push({path:"/user/store/list/storeInfo/addOrder",query:{storeId: this.storeId,storeName: this.storeName}});
+    addVip() {
+      this.addVipShow = true;
     },
     clickRow(row){
       this.$refs.moviesTable.toggleRowSelection(row)
     },
-    orderInfo(row) {
-      this.$router.push({path:"/user/store/list/storeInfo/frontDeskOrder/orderInfo",query:{orderId: row.orderId,
-          tableId: row.tableId,amount: row.amount,vipAmount: row.vipAmount,realAmount: row.realAmount}});
+    edit(row) {
+      this.row = row;
+      this.editVipShow = true;
     },
     handleIntoStore(storeId) {
       this.$router.push({path:"/user/store/list/storeInfo",query:{storeId: storeId}});
     },
-    handleDelete(orderId,tableId) {
+    handleDelete(vipId) {
       let user = JSON.parse(window.localStorage.getItem('access-user'));
-      var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,storeId: this.storeId,
-        orderId: orderId,tableId: tableId});
+      var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,vipId: vipId});
 
       swal({
-        title: "删除订单",
-        text: "您确定要删除: " + orderId + " 订单吗？",
+        title: "删除会员",
+        text: "您确定要删除: " + vipId + " 会员吗？",
         icon: "warning",
         buttons: true,
         dangerMode: true
       }).then(willDelete => {
         if (willDelete) {
           //删除订单
-          API.POST(URL.DELETE_ORDER, param)
+          API.POST(URL.DELETE_VIP, param)
             .then(res => {
               if (res.result.retCode === 0) {
                 swal({
                     title: "已删除",
-                    text: "删除订单成功",
+                    text: "删除会员成功",
                     icon: "success",
                     button: "确认"
                   }).then(() => {
                     this.refresh();
                   });
-                }else if (res.result.retCode === 1022){
-                this.$message.error('删除失败，订单已付款，无法删除！');
-              }
+                }
             })
             .catch(err => {
               this.$message.error('系统正在升级中，请联系管理员！');
@@ -190,7 +177,9 @@ export default {
           }
         })
     },
-
+    consumeRecord(vipId){
+      this.$router.push({path:"/user/store/vip/vipConsumRecord",query:{vipId: vipId}});
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
@@ -203,7 +192,7 @@ export default {
 </script>
 
 <style scoped>
-  .frontDeskOrder{
+  .vip{
     position: relative;
     height: 100%;
     top: 10px;

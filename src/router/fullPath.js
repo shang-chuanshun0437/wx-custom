@@ -26,6 +26,12 @@ import CompleteOrder from '../views/order/CompleteOrder'
 import User from '../views/user/User'
 import UserList from '../views/user/UserList'
 
+import Vip from '../views/vip/Vip'
+import VipList from '../views/vip/VipList'
+import VipConsumRecord from '../views/vip/VipConsumRecord'
+import ConsumRecordOrderInfo from '../views/vip/ConsumRecordOrderInfo'
+import VipStatistics from '../views/vip/VipStatistics'
+
 import Instructions from '@/components/Instructions'
 import Help from '@/components/Help'
 import Account from '../views/account/Account'
@@ -72,7 +78,7 @@ let router = new Router({
         },
         {
             path: '/user/store/info',
-            name: 'storeInfo1',
+            name: 'storeInfo',
             component: Stores,
             redirect: '/user/store/info/menuList',
             children: [
@@ -89,6 +95,18 @@ let router = new Router({
         },
       { path: '/user/store/list/storeInfo/addOrder', component: AddOrder, name: 'addOrder' },
       { path: '/user/store/list/storeInfo/addOrderInfo', component: AddOrderInfo, name: 'addOrderInfo' },
+      {
+        path: '/user/store/vip',
+        name: 'vip',
+        component: Vip,
+        redirect: '/user/store/vip/list',
+        children: [
+          { path: '/user/store/vip/list', component: VipList, name: 'vipList' },
+          { path: '/user/store/vip/vipConsumRecord', component: VipConsumRecord, name: 'vipConsumRecord' },
+          { path: '/user/store/vip/consumRecordOrderInfo', component: ConsumRecordOrderInfo, name: 'consumRecordOrderInfo' },
+          { path: '/user/store/vip/vipStatistics', component: VipStatistics, name: 'vipStatistics' },
+        ]
+      },
         {
             path: '/device/user',
             name: 'user',

@@ -10,7 +10,7 @@
          mode="horizontal" :default-active="$route.path" router active-text-color="#FFFFFF" text-color="#000000" >
          <el-menu-item index = "/summary" style = "font-size: 16px;">首页</el-menu-item>
          <el-menu-item index="/user/store/list" style = "font-size: 16px;">店铺管理</el-menu-item>
-         <el-menu-item index="/device/user/list" style = "font-size: 16px;">会员信息</el-menu-item>
+         <el-menu-item index="/user/store/vip" style = "font-size: 16px;">会员管理</el-menu-item>
          <el-menu-item index="/device/openHistory/list" style = "font-size: 16px;">统计</el-menu-item>
          <el-menu-item index="/account/private" style = "font-size: 16px;" >账户信息</el-menu-item>
        </el-menu>

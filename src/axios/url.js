@@ -39,6 +39,14 @@ export const DELETE_ORDER = "/store/order/delete"; //删除订单
 export const DELETE_ORDER_INFO = "/store/order/info/delete"; //删除订单中的某一个商品
 export const ADD_ORDER_INFO = "/store/order/info/add"; //向订单中增加一个商品
 
+//会员
+export const QUERY_VIP = "/store/vip/query/list"; //查询会员列表
+export const ADD_VIP = "/store/vip/add"; //添加会员
+export const DELETE_VIP = "/store/vip/delete"; //删除会员
+export const UPDATE_VIP = "/store/vip/update"; //更新会员
+export const QUERY_VIP_CONSUME_RECORD = "/store/vip/query/consume"; //查询会员消费记录
+export const QUERY_ADD_NUM = "/store/vip/query/addNum"; //查询会员消费记录
+
 //上传资源
 export const UPLOAD_IMG_URL = "/upload/img"; //上传图片
 

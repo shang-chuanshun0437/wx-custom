@@ -164,7 +164,7 @@
         }
         let user = JSON.parse(window.localStorage.getItem('access-user'));
         var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,storeId: this.storeId,
-          tableId: this.ruleForm.tableId,personNum: this.ruleForm.persons,
+          tableId: this.ruleForm.tableId,personNum: this.ruleForm.persons,storeName:this.storeName,
           source: 2,payType : 1,orderInfos: this.selectFoods});
 
         //添加订单

@@ -11,6 +11,7 @@ import leftSideSelect from "./modules/leftSideSelect";
 import storeSelected from "./modules/storeSelected";
 import storeOrder from "./modules/storeOrder";
 import orderInfo from "./modules/orderInfo";
+import vip from "./modules/vip";
 
 import getters from "./getters";
 Vue.use(Vuex);
@@ -26,7 +27,8 @@ export default new Vuex.Store({
       leftSideSelect,
       storeSelected,
       storeOrder,
-      orderInfo
+      orderInfo,
+      vip
     },
     getters
 });
