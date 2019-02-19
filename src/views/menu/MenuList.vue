@@ -12,7 +12,7 @@
         <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div style="position: relative;top: 30px;width: 100%;height: 100%">
+    <div style="position: relative;top: 30px;">
       <el-row >
         <el-col :span="18" style="position: relative;left: 30px">
           <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>

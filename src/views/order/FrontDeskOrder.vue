@@ -13,7 +13,7 @@
         <el-breadcrumb-item style="font-size: 17px;">前台点餐</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div style="position: relative;top: 40px;width: 100%;height: 100%">
+    <div style="position: relative;top: 40px">
       <el-row >
         <el-col :span="20" style="position: relative;left: 30px">
           <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>

@@ -26,9 +26,6 @@
             <span > 销售分析 </span>
           </el-menu-item>
           <el-menu-item index="/user/device/unmanage" style = "font-size: 16px;">
-            <span > 会员管理 </span>
-          </el-menu-item>
-          <el-menu-item index="/user/device/unmanage" style = "font-size: 16px;">
             <span > 系统设置 </span>
           </el-menu-item>
         </el-submenu>

@@ -10,7 +10,14 @@
       <span class="last-vip-consume-desc">
         最近一周会员消费金额
       </span>
-      <G2Columnar :charData="serverData" :id="'c2'"></G2Columnar>
+      <G2Columnar :charData="allVipConsume" :id="'c2'"></G2Columnar>
+    </div>
+
+    <div class="last-vip-consume-percent">
+      <span class="last-vip-consume-percent-desc">
+        最近一周会员消费金额所占比例
+      </span>
+      <G2Pie :charData.sync="percentData" :id="'c3'"></G2Pie>
     </div>
 
   </div>
@@ -33,24 +40,15 @@
     data () {
       return {
         serverData: [],
-        pieData : [{
-          item: '事例一',
-          count: 40,
-          percent: 0.4
-        }, {
-          item: '事例二',
-          count: 21,
-          percent: 0.21
-        }, {
-          item: '事例三',
-          count: 17,
-          percent: 0.17
-        }, {
-          item: '事例四',
-          count: 13,
-          percent: 0.13
-        }]
+        allVipConsume: [],
+        percentData : []
       }
+    },
+    computed: {
+      ...mapState("orderInfo", {
+        total: state => state.total,
+        list: state => state.list
+      }),
     },
     created() {
       this.refresh();
@@ -63,11 +61,37 @@
         let user = JSON.parse(window.localStorage.getItem('access-user'));
         var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,beginTime: beginTime,endTime: endTime});
 
-        //查询订单列表
+        //查询在某段时间内添加vip的数量
         API.POST(URL.QUERY_ADD_NUM, param)
           .then(res => {
             if (res.result.retCode === 0) {
               this.serverData = res.statistics;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.$message.error('后台正在升级，请联系管理员！');
+          });
+
+        //查询在某段时间内所有vip的消费金额
+        API.POST(URL.QUERY_ALL_VIP_CONSUME, param)
+          .then(res => {
+            if (res.result.retCode === 0) {
+              this.allVipConsume = res.statistics;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.$message.error('后台正在升级，请联系管理员！');
+          });
+
+        //查询在某段时间内所有vip的消费金额所占比例
+        API.POST(URL.QUERY_ALL_VIP_CONSUME_PERCENT, param)
+          .then(res => {
+            if (res.result.retCode === 0) {
+              this.percentData = res.statisticsPercents;
+              console.log("vipStatistic:" + this.percentData)
+              console.log(this.percentData)
             }
           })
           .catch(err => {
@@ -97,7 +121,6 @@
   .vip-statistics{
     position: relative;
     height: 100%;
-    overflow-x: hidden;
   }
   .last-add-vip-num{
     position: absolute;
@@ -124,6 +147,7 @@
   }
   .last-vip-consume-percent-desc{
     position: absolute;
+    width: 300px;
     left: 120px;
   }
 </style>

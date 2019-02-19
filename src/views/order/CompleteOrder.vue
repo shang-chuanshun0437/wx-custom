@@ -13,13 +13,15 @@
         <el-breadcrumb-item style="font-size: 17px;">已完成订单</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div style="position: relative;top: 40px;width: 100%;height: 100%">
+    <div style="position: relative;top: 40px">
       <el-row >
-        <el-col :span="24" style="position: relative;left: 30px">
+        <el-col :span="23" style="position: relative;left: 30px">
           <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
+          <el-button type="primary" icon="el-icon-plus" @click="exportReport()">导出报表</el-button>
         </el-col>
       </el-row>
-      <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
+
+      <el-table v-loading="loading" :data="list" style="position:relative;top: 10px;width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column width="200" prop="orderId" label="订单编号" align="center"></el-table-column>
         <el-table-column width="100" prop="tableId" label="餐桌编号" align="center"></el-table-column>
@@ -65,6 +67,9 @@ import SearchForm from "../common/SearchForm";
 import { mapState } from "vuex";
 import * as API from "../../axios/api";
 import * as URL from "../../axios/url";
+
+import { instance } from "../../axios/instance";
+
 const searchData = [
   {
     name: "餐桌编号",
@@ -169,6 +174,31 @@ export default {
     addOrder() {
       this.$router.push({path:"/user/store/list/storeInfo/addOrder",query:{storeId: this.storeId,storeName: this.storeName}});
     },
+    exportReport() {
+      let user = JSON.parse(window.localStorage.getItem('access-user'));
+      var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,storeId: this.storeId ,
+        tableId: this.filters.tableId ,payType: this.filters.payType ,beginTime: this.filters.beginTime ,
+        endTime: this.filters.endTime ,source: this.filters.source});
+
+      //查询订单列表
+      instance.post(URL.EXPORT_REPORT, param,{responseType: 'blob'})
+        .then(res => {
+          const blob = new Blob([res.data],{type: "application/vnd.ms-excel"});
+          const fileName = '已完成订单.xlsx';
+          const elink = document.createElement('a');
+          elink.download = fileName;
+          elink.style.display = 'none';
+          elink.href = window.URL.createObjectURL(blob);
+          document.body.appendChild(elink);
+          elink.click();
+          window.URL.revokeObjectURL(elink.href); // 释放URL 对象
+          document.body.removeChild(elink);
+        })
+        .catch(err => {
+          console.log(err);
+          this.$message.error('后台正在升级，请联系管理员！');
+        });
+    },
     clickRow(row){
       this.$refs.moviesTable.toggleRowSelection(row)
     },
@@ -230,6 +260,7 @@ export default {
   .frontDeskOrder{
     position: relative;
     height: 100%;
+    width: 100%;
     top: 10px;
   }
   .headNav{

@@ -24,6 +24,12 @@
       },
       id: String
     },
+    created() {
+      console.log("G2Pie created")
+    },
+    //mounted() {
+      //this.drawChart();
+    //},
     // 监听API接口传过来的数据  2018-08-21更新
     watch: {
       charData: function (val, oldVal) {    // 监听charData，当放生变化时，触发这个回调函数绘制图表
@@ -32,7 +38,7 @@
       }
     },
     methods: {
-      drawChart: function () {
+      drawChart() {
         this.chart && this.chart.destory()
         this.chart = new G2.Chart({
           container: this.id,
@@ -47,6 +53,8 @@
             }
           }
         });
+        console.log("G2Pie++++");
+        console.log(this.charData);
         this.chart.coord('theta');
         this.chart.tooltip({
           showTitle: false
@@ -66,7 +74,7 @@
             value: percent
           };
         }).style({
-          lineWidth: 1,
+          lineWidth: 2,
           stroke: '#fff'
         });
         this.chart.render();
