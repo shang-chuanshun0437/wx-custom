@@ -9,14 +9,14 @@
         <span  class="panel-text">我的店铺/店铺列表</span>
       </div>
       <el-row style="top:10px;">
-        <el-col :span="16" :offset="1">
+        <el-col :span="18" :offset="1">
           <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
         </el-col>
-        <el-col :span="6"  align="center">
+        <el-col :span="4"  align="center">
           <el-button type="primary" icon="el-icon-plus" :disabled="add.addDisabled" @click="addStore()">新增店铺</el-button>
         </el-col>
       </el-row>
-      <el-table v-loading="loading" :data="list" style="width: 98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
+      <el-table v-loading="loading" :data="list" style="width: 98%;left: 30px" @row-click="clickRow" border stripe ref="moviesTable">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column width="140" prop="storeId" label="店铺编号" align="center"></el-table-column>
         <el-table-column width="180" prop="storeName" label="店铺名称" align="center"></el-table-column>

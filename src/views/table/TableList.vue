@@ -14,20 +14,25 @@
           <el-button type="primary" icon="el-icon-plus" @click="addStoreTable()">新增餐桌</el-button>
         </el-col>
       </el-row>
-      <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
+      <el-table v-loading="loading" :data="list" style="width:97%;left: 2%" @row-click="clickRow" border stripe ref="moviesTable">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column width="140" prop="tableId" label="餐桌编号" align="center"></el-table-column>
-        <el-table-column width="180" prop="capacity" label="容纳人数" align="center"></el-table-column>
+        <el-table-column width="100" prop="capacity" label="容纳人数" align="center"></el-table-column>
         <el-table-column width="180" prop="address" label="餐桌位置" align="center"></el-table-column>
-        <el-table-column width="180" prop="personNum" label="就餐人数" align="center"></el-table-column>
+        <el-table-column width="100" prop="personNum" label="就餐人数" align="center"></el-table-column>
         <el-table-column width="150px" prop="status" label="使用状态" align="center">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.status===1" type="success">空闲</el-tag>
             <el-tag v-else-if="scope.row.status===2" type="danger">就餐中</el-tag>
           </template>
         </el-table-column>
+        <el-table-column width="120" prop="foodImg" align="center" label="二维码" >
+          <template slot-scope="scope">
+            <img  :src="scope.row.qrCodeUrl" alt="" style="width: 100px;height: 90px">
+          </template>
+        </el-table-column>
         <el-table-column width="180" prop="createTime" label="添加日期" align="center"></el-table-column>
-        <el-table-column width="270" label="操作" align="center">
+        <el-table-column width="160" label="操作" align="center">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.row.tableId)">删除</el-button>

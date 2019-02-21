@@ -153,14 +153,14 @@ export default {
   .headNav{
     position: relative;
     top: 20px;
-    left: 20px;
+    left: 30px;
     width: 380px;
   }
   .content{
     position: relative;
     top: 40px;
     width: 90%;
-    left: 20px;
+    left: 30px;
   }
   .confirmBtn{
     position: relative;

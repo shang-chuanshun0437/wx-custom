@@ -11,7 +11,7 @@ import * as util from "@/utils/index";
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: 'http://127.0.0.1:8080/smartlock',
+    baseURL: 'http://192.168.1.4:8080/smartlock',
     timeout: 10000
 });
 

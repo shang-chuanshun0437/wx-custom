@@ -14,14 +14,14 @@
     </div>
     <div style="position: relative;top: 30px;">
       <el-row >
-        <el-col :span="18" style="position: relative;left: 30px">
+        <el-col :span="20" style="position: relative;left: 30px">
           <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
         </el-col>
-        <el-col :span="6"  align="center">
+        <el-col :span="4"  align="center">
           <el-button type="primary" icon="el-icon-plus" @click="addMenu()">新增菜单</el-button>
         </el-col>
       </el-row>
-      <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
+      <el-table v-loading="loading" :data="list" style="width:98%;left: 30px" @row-click="clickRow" border stripe ref="moviesTable">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column width="100" prop="foodId" label="商品编号" align="center"></el-table-column>
         <el-table-column width="180" prop="foodName" label="商品名" align="center"></el-table-column>
@@ -347,7 +347,7 @@ export default {
   .headNav{
     position: relative;
     top: 20px;
-    left: 20px;
+    left: 30px;
     width: 380px;
   }
 </style>
