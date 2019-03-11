@@ -7,7 +7,8 @@ import Summary from '@/components/Summary'
 
 import Stores from '../views/store/Stores'
 import StoresList from '../views/store/StoresList'
-import OpenDoorHistory from '../views/store/OpenDoorHistory'
+import SystemSettings from '../views/store/SystemSettings'
+import SaleStatistics from '../views/sale/SaleStatistics'
 
 import TableOrGraph from '../views/table/TableOrGraph'
 import AddStoreTable from '../views/table/AddStoreTable'
@@ -22,6 +23,7 @@ import OrderInfo from '../views/order/OrderInfo'
 import AddOrder from '../views/order/AddOrder'
 import AddOrderInfo from '../views/order/AddOrderInfo'
 import CompleteOrder from '../views/order/CompleteOrder'
+import FrontDeskPay from '../views/order/FrontDeskPay'
 
 import User from '../views/user/User'
 import UserList from '../views/user/UserList'
@@ -74,6 +76,8 @@ let router = new Router({
             redirect: '/user/store/list',
             children: [
               { path: '/user/store/list', component: StoresList, name: 'storesList' },
+              { path: '/user/store/systemSettings', component: SystemSettings, name: 'systemSettings' },
+              { path: '/user/store/saleStatistics', component: SaleStatistics, name: 'saleStatistics' },
             ]
         },
         {
@@ -91,41 +95,37 @@ let router = new Router({
               { path: '/user/store/list/storeInfo/frontDeskOrder', component: FrontDeskOrder, name: 'frontDeskOrder' },
               { path: '/user/store/list/storeInfo/frontDeskOrder/orderInfo', component: OrderInfo, name: 'orderInfo' },
               { path: '/user/store/list/storeInfo/CompleteOrder', component: CompleteOrder, name: 'completeOrder' },
+              { path: '/user/store/list/storeInfo/frontDeskPay', component: FrontDeskPay, name: 'frontDeskPay' },
             ]
         },
-      { path: '/user/store/list/storeInfo/addOrder', component: AddOrder, name: 'addOrder' },
-      { path: '/user/store/list/storeInfo/addOrderInfo', component: AddOrderInfo, name: 'addOrderInfo' },
-      {
-        path: '/user/store/vip',
-        name: 'vip',
-        component: Vip,
-        redirect: '/user/store/vip/list',
-        children: [
-          { path: '/user/store/vip/list', component: VipList, name: 'vipList' },
-          { path: '/user/store/vip/vipConsumRecord', component: VipConsumRecord, name: 'vipConsumRecord' },
-          { path: '/user/store/vip/consumRecordOrderInfo', component: ConsumRecordOrderInfo, name: 'consumRecordOrderInfo' },
-          { path: '/user/store/vip/vipStatistics', component: VipStatistics, name: 'vipStatistics' },
-        ]
-      },
+        { path: '/user/store/list/storeInfo/addOrder', component: AddOrder, name: 'addOrder' },
+        { path: '/user/store/list/storeInfo/addOrderInfo', component: AddOrderInfo, name: 'addOrderInfo' },
         {
-            path: '/device/user',
-            name: 'user',
-            component: User,
-            redirect: '/device/user/list',
-            children: [
-                { path: '/device/user/list', component: UserList, name: 'userList' },
+          path: '/user/store/vip',
+          name: 'vip',
+          component: Vip,
+          redirect: '/user/store/vip/list',
+          children: [
+            { path: '/user/store/vip/list', component: VipList, name: 'vipList' },
+            { path: '/user/store/vip/vipConsumRecord', component: VipConsumRecord, name: 'vipConsumRecord' },
+            { path: '/user/store/vip/consumRecordOrderInfo', component: ConsumRecordOrderInfo, name: 'consumRecordOrderInfo' },
+            { path: '/user/store/vip/vipStatistics', component: VipStatistics, name: 'vipStatistics' },
             ]
-        },
-        {
-          path: '/account/private',
-          name: 'account',
-          component: Account,
-        },
-      {
-        path: '/device/openHistory/list',
-        name: 'openDoorHistory',
-        component: OpenDoorHistory,
-      },
+          },
+          {
+              path: '/device/user',
+              name: 'user',
+              component: User,
+              redirect: '/device/user/list',
+              children: [
+                  { path: '/device/user/list', component: UserList, name: 'userList' },
+              ]
+          },
+          {
+            path: '/account/private',
+            name: 'account',
+            component: Account,
+          },
     ]
 
 })

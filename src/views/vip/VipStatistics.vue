@@ -1,20 +1,20 @@
 <template>
   <div class="vip-statistics">
     <div class="last-add-vip-num">
-      <span class="last-add-vip-num-desc">
+      <span>
         最近一周会员新增量
       </span>
       <G2Line :charData="serverData" :id="'c1'"></G2Line>
     </div>
     <div class="last-vip-consume">
-      <span class="last-vip-consume-desc">
+      <span>
         最近一周会员消费金额
       </span>
       <G2Columnar :charData="allVipConsume" :id="'c2'"></G2Columnar>
     </div>
 
     <div class="last-vip-consume-percent">
-      <span class="last-vip-consume-percent-desc">
+      <span>
         最近一周会员消费金额所占比例
       </span>
       <G2Pie :charData.sync="percentData" :id="'c3'"></G2Pie>
@@ -117,37 +117,17 @@
   }
 </script>
 
-<style scoped>
-  .vip-statistics{
-    position: relative;
-    height: 100%;
-  }
-  .last-add-vip-num{
-    position: absolute;
-    top: 30px;
-    left: 20px;
-  }
-  .last-add-vip-num-desc{
-    position: absolute;
-    left: 120px;
-  }
-  .last-vip-consume{
-    position: absolute;
-    top: 30px;
-    left: 450px;
-  }
-  .last-vip-consume-desc{
-    position: absolute;
-    left: 120px;
-  }
-  .last-vip-consume-percent{
-    position: absolute;
-    top: 440px;
-    left: 20px;
-  }
-  .last-vip-consume-percent-desc{
-    position: absolute;
-    width: 300px;
-    left: 120px;
-  }
+<style scoped lang="stylus" type="text/stylus">
+  .vip-statistics
+    position relative
+    width 100%
+    height 100%
+    display flex
+    flex-wrap wrap
+    .last-add-vip-num
+      text-align center
+    .last-vip-consume
+      text-align center
+    .last-vip-consume-percent
+      text-align center
 </style>

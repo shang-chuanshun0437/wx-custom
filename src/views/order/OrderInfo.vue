@@ -4,66 +4,57 @@
  *前台点餐
  */
 <template>
-  <div class="frontDeskOrder">
-    <div class="headNav">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">订单详情</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="total-count">
-      <span>餐桌编号：{{this.tableId}}号&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp订单总金额：￥{{this.amount}}&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp会员总金额：￥{{this.vipAmount}}&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp实收金额：￥{{this.realAmount}}</span>
-      <span v-show="this.realAmount == 0" class="check">
-        <el-button round type="success" @click="pay">结账</el-button>
-        <el-button round type="primary" style="position: relative;top: -40px;left: 80px;" @click="addOrderInfo">加菜</el-button>
-      </span>
-    </div>
-    <div style="position: relative;top: 70px;width: 100%;height: 85%">
-      <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column width="90" prop="foodId" label="商品编号" align="center"></el-table-column>
-        <el-table-column width="150" prop="foodName" label="商品名称" align="center"></el-table-column>
-        <el-table-column width="80" prop="foodCount" label="份数" align="center">
-          <template slot-scope="scope">
-            <span style="color: red">{{scope.row.foodCount}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column width="90px" prop="oldPrice" align="center" label="原价" ></el-table-column>
-        <el-table-column width="90px" prop="newPrice" label="现价" align="center">
-          <template slot-scope="scope">
-            <span style="color: #000000">{{scope.row.newPrice}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column width="90px" prop="vipPrice" label="会员价" align="center"></el-table-column>
-        <el-table-column width="90" prop="totalPrice" label="总价" align="center">
-          <template slot-scope="scope">
-            <span style="color: #20a0ff">{{scope.row.totalPrice}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column width="90" prop="vipTotalPrice" label="会员总价" align="center">
-          <template slot-scope="scope">
-            <span style="color: #00b43c">{{scope.row.vipTotalPrice}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column width="100" prop="realPrice" label="实收金额" align="center"></el-table-column>
-        <el-table-column width="100" prop="vipNum" label="会员编号" align="center"></el-table-column>
-        <el-table-column width="100" prop="orderType" label="点菜类型" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.orderType===1" type="success">点菜</el-tag>
-            <el-tag v-else-if="scope.row.orderType===2" type="info">加菜</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column width="180" prop="createTime" label="订单日期" align="center"></el-table-column>
-        <el-table-column width="120"  label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button v-if = "scope.row.realPrice != 0" size="mini" type="danger" disabled>删除</el-button>
-            <el-button v-else  size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+  <div class="order-info-list">
+    <div class="order-info-list-content">
+      <div class="panel-heading">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">订单详情</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="order-info-list-info">
+        <span>餐桌编号：{{this.tableId}}号&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp订单总金额：￥{{this.amount}}&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+           &nbsp会员总金额：￥{{this.vipAmount}}&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp实收金额：￥{{this.realAmount}}</span>
+        <span v-show="this.realAmount == 0" class="check">
+          <el-button style="margin-left: 40px" round type="success" @click="pay">结账</el-button>
+          <el-button round type="primary"  @click="addOrderInfo">加菜</el-button>
+        </span>
+      </div>
+      <div class="order-info-list-table">
+        <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column width="90" prop="foodId" label="商品编号" align="center"></el-table-column>
+          <el-table-column width="150" prop="foodName" label="商品名称" align="center"></el-table-column>
+          <el-table-column width="80" prop="foodCount" label="份数" align="center">
+            <template slot-scope="scope">
+              <span style="color: red">{{scope.row.foodCount}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column width="90px" prop="oldPrice" align="center" label="原价" ></el-table-column>
+          <el-table-column width="90px" prop="newPrice" label="现价" align="center">
+            <template slot-scope="scope">
+              <span style="color: #000000">{{scope.row.newPrice}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column width="90px" prop="vipPrice" label="会员价" align="center"></el-table-column>
+          <el-table-column width="100" prop="vipNum" label="会员编号" align="center"></el-table-column>
+          <el-table-column width="100" prop="orderType" label="点菜类型" align="center">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.orderType===1" type="success">点菜</el-tag>
+              <el-tag v-else-if="scope.row.orderType===2" type="info">加菜</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column width="180" prop="createTime" label="订单日期" align="center"></el-table-column>
+          <el-table-column width="120"  label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button v-if = "scope.row.realPrice != 0" size="mini" type="danger" disabled>删除</el-button>
+              <el-button v-else  size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
     <Pay :show.sync="payShow" :object="object"></Pay>
   </div>
@@ -191,29 +182,24 @@ export default {
 };
 </script>
 
-<style scoped>
-  .frontDeskOrder{
+<style scoped lang="stylus" type="text/stylus">
+  .order-info-list
     position: relative;
-    height: 100%;
-    top: 10px;
-  }
-  .headNav{
-    position: relative;
-    top: 20px;
-    left: 20px;
-    width: 580px;
-  }
-  .total-count{
-    position: relative;
-    top: 50px;
-    left: 80px;
-    width: 780px;
-    font-size: 18px;
-  }
-  .check{
-    position: absolute;
-    top: -10px;
-    left: 780px;
-    font-size: 18px;
-  }
+    width 100%
+    height 100%
+    .order-info-list-content
+      position absolute
+      width 98%
+      height 100%
+      left 1%
+      .panel-heading
+        position relative
+        top 20px
+      .order-info-list-info
+        position relative
+        top 40px
+      .order-info-list-table
+        position relative
+        width 100%
+        top 60px
 </style>

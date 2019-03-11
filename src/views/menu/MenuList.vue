@@ -4,78 +4,78 @@
  *餐桌管理
  */
 <template>
-  <div class="menuManage">
-    <div class="headNav">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div style="position: relative;top: 30px;">
-      <el-row >
-        <el-col :span="20" style="position: relative;left: 30px">
-          <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
-        </el-col>
-        <el-col :span="4"  align="center">
-          <el-button type="primary" icon="el-icon-plus" @click="addMenu()">新增菜单</el-button>
-        </el-col>
-      </el-row>
-      <el-table v-loading="loading" :data="list" style="width:98%;left: 30px" @row-click="clickRow" border stripe ref="moviesTable">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column width="100" prop="foodId" label="商品编号" align="center"></el-table-column>
-        <el-table-column width="180" prop="foodName" label="商品名" align="center"></el-table-column>
-        <el-table-column width="100" prop="foodImg" align="center" label="商品图片" >
-          <template slot-scope="scope">
-            <img  :src="scope.row.foodImg" alt="" style="width: 80px;height: 80px">
-          </template>
-        </el-table-column>
-        <el-table-column width="120px" prop="category" label="类目" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.category===1" type="success">小炒系列</el-tag>
-            <el-tag v-else-if="scope.row.category===2" type="info">凉菜系列</el-tag>
-            <el-tag v-else-if="scope.row.category===3" type="danger">海鲜系列</el-tag>
-            <el-tag v-else-if="scope.row.category===4" type="success">汤系列</el-tag>
-            <el-tag v-else-if="scope.row.category===5" type="info">酒水饮料</el-tag>
-            <el-tag v-else-if="scope.row.category===6" type="danger">主食</el-tag>
-            <el-tag v-else-if="scope.row.category===7" type="danger">其它</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column width="100" prop="oldPrice" label="原价" align="center"></el-table-column>
-        <el-table-column width="100" prop="newPrice" label="现价" align="center"></el-table-column>
-        <el-table-column width="100" prop="vipPrice" label="会员价" align="center"></el-table-column>
-        <el-table-column width="100px" prop="recommend" label="是否推荐" align="center">
-          <template slot-scope="scope">
-            <el-button v-if="scope.row.recommend == 1" type="info" @click="recommend(scope.row.foodId,scope.row.foodName,scope.row.recommend)">不推荐</el-button>
-            <el-button v-else-if="scope.row.recommend == 2" type="success" @click="recommend(scope.row.foodId,scope.row.foodName,scope.row.recommend)">推荐</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column width="100px" prop="status" label="是否售罄" align="center">
-          <template slot-scope="scope">
-            <el-button v-if="scope.row.status == 1" type="success" @click="sellOut(scope.row.foodId,scope.row.foodName,scope.row.status)">未售罄</el-button>
-            <el-button v-else-if="scope.row.status == 2" type="danger" @click="sellOut(scope.row.foodId,scope.row.foodName,scope.row.status)">售罄</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column width="100px" prop="taste" label="口味" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.taste === 1" type="success">不辣</el-tag>
-            <el-tag v-else-if="scope.row.taste === 2" type="info">微辣</el-tag>
-            <el-tag v-else-if="scope.row.taste === 3" type="info">中辣</el-tag>
-            <el-tag v-else-if="scope.row.taste === 4" type="info">特辣</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column width="180" prop="createTime" label="添加日期" align="center"></el-table-column>
-        <el-table-column width="180" label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.row.foodId)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.foodId,scope.row.foodName)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-row style="text-align:center;margin-top:15px;">
-        <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next,jumper" :total="total">
-        </el-pagination>
-      </el-row>
+  <div class="menu-list">
+    <div class="menu-list-content">
+      <div class="panel-heading">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="menu-list-search">
+        <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
+        <el-button type="primary" style="height: 40px" icon="el-icon-plus" @click="addMenu()">新增菜单</el-button>
+      </div>
+      <div class="menu-list-table">
+        <el-table v-loading="loading" :data="list" @row-click="clickRow" border stripe ref="moviesTable">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column width="100" prop="foodId" label="商品编号" align="center"></el-table-column>
+          <el-table-column width="180" prop="foodName" label="商品名" align="center"></el-table-column>
+          <el-table-column width="80" prop="foodImg" align="center" label="商品图片" >
+            <template slot-scope="scope">
+              <img  :src="scope.row.foodImg" alt="" style="width: 60px;height: 60px">
+            </template>
+          </el-table-column>
+          <el-table-column width="120px" prop="category" label="类目" align="center">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.category===1" type="success">小炒系列</el-tag>
+              <el-tag v-else-if="scope.row.category===2" type="info">凉菜系列</el-tag>
+              <el-tag v-else-if="scope.row.category===3" type="danger">海鲜系列</el-tag>
+              <el-tag v-else-if="scope.row.category===4" type="success">汤系列</el-tag>
+              <el-tag v-else-if="scope.row.category===5" type="info">酒水饮料</el-tag>
+              <el-tag v-else-if="scope.row.category===6" type="danger">主食</el-tag>
+              <el-tag v-else-if="scope.row.category===7" type="danger">其它</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column width="100" prop="oldPrice" label="原价" align="center"></el-table-column>
+          <el-table-column width="100" prop="newPrice" label="现价" align="center"></el-table-column>
+          <el-table-column width="100" prop="vipPrice" label="会员价" align="center"></el-table-column>
+          <el-table-column width="100px" prop="recommend" label="是否推荐" align="center">
+            <template slot-scope="scope">
+              <el-button v-if="scope.row.recommend == 1" type="info" @click="recommend(scope.row.foodId,scope.row.foodName,scope.row.recommend)">不推荐</el-button>
+              <el-button v-else-if="scope.row.recommend == 2" type="success" @click="recommend(scope.row.foodId,scope.row.foodName,scope.row.recommend)">推荐</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column width="100px" prop="status" label="是否售罄" align="center">
+            <template slot-scope="scope">
+              <el-button v-if="scope.row.status == 1" type="success" @click="sellOut(scope.row.foodId,scope.row.foodName,scope.row.status)">未售罄</el-button>
+              <el-button v-else-if="scope.row.status == 2" type="danger" @click="sellOut(scope.row.foodId,scope.row.foodName,scope.row.status)">售罄</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column width="100px" prop="taste" label="口味" align="center">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.taste === 1" type="success">不辣</el-tag>
+              <el-tag v-else-if="scope.row.taste === 2" type="info">微辣</el-tag>
+              <el-tag v-else-if="scope.row.taste === 3" type="info">中辣</el-tag>
+              <el-tag v-else-if="scope.row.taste === 4" type="info">特辣</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column width="180" prop="createTime" label="添加日期" align="center"></el-table-column>
+          <el-table-column width="180" label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="handleEdit(scope.row.foodId)">编辑</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.row.foodId,scope.row.foodName)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="menu-list-page">
+        <el-row style="text-align:center;margin-top:15px;">
+          <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next,jumper" :total="total">
+          </el-pagination>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -338,16 +338,31 @@ export default {
 };
 </script>
 
-<style scoped>
-  .menuManage{
+<style scoped lang="stylus" type="text/stylus">
+  .menu-list
     position: relative;
-    height: 100%;
-    top: 10px;
-  }
-  .headNav{
-    position: relative;
-    top: 20px;
-    left: 30px;
-    width: 380px;
-  }
+    width 100%
+    height 100%
+    .menu-list-content
+      position absolute
+      width 98%
+      height 100%
+      left 1%
+      .panel-heading
+        position relative
+        top 20px
+      .menu-list-search
+        position: relative;
+        top 40px
+        display flex
+        flex-direction row
+        flex-wrap wrap
+      .menu-list-table
+        position relative
+        width 100%
+        top 50px
+      .menu-list-page
+        position relative
+        top 50px
+        text-align center
 </style>

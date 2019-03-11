@@ -1,59 +1,47 @@
 /*
  * Author: 阿甘
  * Email:519983770@qq.com
- *已完成订单
+ *前台收银
  */
 <template>
-  <div class="complete-order-list">
-    <div class="complete-order-list-content">
+  <div class="front-pay-list">
+    <div class="front-pay-list-content">
       <div class="panel-heading">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
           <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
           <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
-          <el-breadcrumb-item style="font-size: 17px;">已完成订单</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">前台收银</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
-      <div class="complete-order-list-search">
+      <div class="front-pay-list-search">
         <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
-        <el-button type="primary" icon="el-icon-plus" @click="exportReport()">导出报表</el-button>
       </div>
-      <div class="complete-order-list-table">
-        <el-table v-loading="loading" :data="list" style="position:relative;top: 10px;width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
+      <div class="front-pay-list-table">
+        <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column width="140" prop="orderId" label="订单编号" align="center"></el-table-column>
-          <el-table-column width="80" prop="tableId" label="餐桌编号" align="center"></el-table-column>
+          <el-table-column width="140" prop="source" label="订单来源" align="center">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.source===1" type="success">扫码点餐</el-tag>
+              <el-tag v-else-if="scope.row.source===2" type="info">前台点餐</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column width="100" prop="tableId" label="餐桌编号" align="center"></el-table-column>
           <el-table-column width="80" prop="personNum" label="就餐人数" align="center"></el-table-column>
-          <el-table-column width="80" prop="amount" align="center" label="订单金额" ></el-table-column>
-          <el-table-column width="80px" prop="vipAmount" label="会员金额" align="center"></el-table-column>
-          <el-table-column width="120px" prop="vipNum" label="会员编号" align="center">
-            <template slot-scope="scope">
-              <span v-if="scope.row.vipNum==null" style="color:red">非会员</span>
-              <span v-else style="color: #00b43c;">{{scope.row.vipNum}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column width="80" prop="realAmount" label="实收金额"  align="center">
-            <template slot-scope="scope">
-              <span v-if="scope.row.vipNum==null" style="color:red">{{scope.row.realAmount}}</span>
-              <span v-else style="color: #00b43c;">{{scope.row.realAmount}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column width="120" prop="payType" label="支付方式" align="center">
-            <template slot-scope="scope">
-              <el-tag v-if="scope.row.payType===2" type="info">前台支付</el-tag>
-              <el-tag v-else-if="scope.row.payType===3" type="danger">支付宝支付</el-tag>
-              <el-tag v-else-if="scope.row.payType===4" type="danger">微信支付</el-tag>
-            </template>
-          </el-table-column>
+          <el-table-column width="100" prop="amount" align="center" label="订单金额" ></el-table-column>
+          <el-table-column width="80" prop="vipAmount" label="会员金额" align="center"></el-table-column>
+          <el-table-column width="140" prop="vipNum" label="会员编号" align="center"></el-table-column>
           <el-table-column width="180" prop="createTime" label="订单日期" align="center"></el-table-column>
-          <el-table-column width="120" label="操作" align="center">
+          <el-table-column width="180" label="操作" align="center">
             <template slot-scope="scope">
               <el-button size="mini" @click="orderInfo(scope.row)">查看详情</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.row.orderId,scope.row.tableId)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </div>
-      <div class="complete-order-list-page">
+      <div class="front-pay-list-page">
         <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next,jumper" :total="total">
         </el-pagination>
       </div>
@@ -66,9 +54,6 @@ import SearchForm from "../common/SearchForm";
 import { mapState } from "vuex";
 import * as API from "../../axios/api";
 import * as URL from "../../axios/url";
-
-import { instance } from "../../axios/instance";
-
 const searchData = [
   {
     name: "餐桌编号",
@@ -80,13 +65,7 @@ const searchData = [
     name: "订单来源",
     type: "select",
     key: "source",
-    options: ["前台点餐", "扫码点餐"]
-  },
-  {
-    name: "付款方式",
-    type: "select",
-    key: "payType",
-    options: ["前台支付","扫码支付-支付宝","扫码支付-微信"]
+    options: ["前台点餐","扫码点餐"]
   },
   {
     name: "开始时间",
@@ -120,8 +99,7 @@ export default {
       storeName: "未知",
       filters: {
         tableId: "",
-        payType: "",
-        source:"",
+        source: "",
         beginTime: "",
         endTime: "",
       },
@@ -136,9 +114,10 @@ export default {
   },
   methods: {
     refresh() {
+      console.log('refresh');
       let user = JSON.parse(window.localStorage.getItem('access-user'));
       var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,storeId: this.storeId ,
-        tableId: this.filters.tableId ,payType: this.filters.payType ,beginTime: this.filters.beginTime ,
+        tableId: this.filters.tableId ,payType: 1 ,beginTime: this.filters.beginTime ,
         endTime: this.filters.endTime ,source: this.filters.source, currentPage: this.currentPage });
 
       //查询订单列表
@@ -154,15 +133,9 @@ export default {
           this.$message.error('后台正在升级，请联系管理员！');
         });
     },
+
     handleSearch(params) {
       this.filters=Object.assign({},params);
-      if (this.filters.payType == '前台支付'){
-        this.filters.payType = 2;
-      }else if (this.filters.payType == '扫码支付-支付宝'){
-        this.filters.payType = 3;
-      }else if (this.filters.payType == '扫码支付-微信'){
-        this.filters.payType = 4;
-      }
       if (this.filters.source == '前台点餐'){
         this.filters.source = 2;
       }else if (this.filters.source == '扫码点餐'){
@@ -172,31 +145,6 @@ export default {
     },
     addOrder() {
       this.$router.push({path:"/user/store/list/storeInfo/addOrder",query:{storeId: this.storeId,storeName: this.storeName}});
-    },
-    exportReport() {
-      let user = JSON.parse(window.localStorage.getItem('access-user'));
-      var param = Object.assign({}, {userPhone: user.userPhone , token: user.token ,storeId: this.storeId ,
-        tableId: this.filters.tableId ,payType: this.filters.payType ,beginTime: this.filters.beginTime ,
-        endTime: this.filters.endTime ,source: this.filters.source});
-
-      //查询订单列表
-      instance.post(URL.EXPORT_REPORT, param,{responseType: 'blob'})
-        .then(res => {
-          const blob = new Blob([res.data],{type: "application/vnd.ms-excel"});
-          const fileName = '已完成订单.xlsx';
-          const elink = document.createElement('a');
-          elink.download = fileName;
-          elink.style.display = 'none';
-          elink.href = window.URL.createObjectURL(blob);
-          document.body.appendChild(elink);
-          elink.click();
-          window.URL.revokeObjectURL(elink.href); // 释放URL 对象
-          document.body.removeChild(elink);
-        })
-        .catch(err => {
-          console.log(err);
-          this.$message.error('后台正在升级，请联系管理员！');
-        });
     },
     clickRow(row){
       this.$refs.moviesTable.toggleRowSelection(row)
@@ -256,11 +204,11 @@ export default {
 </script>
 
 <style scoped lang="stylus" type="text/stylus">
-  .complete-order-list
+  .front-pay-list
     position: relative;
     width 100%
     height 100%
-    .complete-order-list-content
+    .front-pay-list-content
       position absolute
       width 98%
       height 100%
@@ -268,17 +216,17 @@ export default {
       .panel-heading
         position relative
         top 20px
-      .complete-order-list-search
+      .front-pay-list-search
         position: relative;
         top 40px
         display flex
         flex-direction row
         flex-wrap wrap
-      .complete-order-list-table
+      .front-pay-list-table
         position relative
         width 100%
         top 50px
-      .complete-order-list-page
+      .front-pay-list-page
         position relative
         top 80px
         text-align center

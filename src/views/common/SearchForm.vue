@@ -70,7 +70,6 @@ export default {
 			let self = this;
 			self.$refs["formInline"].validate(valid => {
 				if (valid) {
-					//	console.log("81----", this.formInline);
 					self.$emit("handleSubmit", this.formInline);
 				} else {
 					return false;

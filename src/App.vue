@@ -1,30 +1,35 @@
 <template>
-  <div id="content" class="app">
-    <Top></Top>
-    <transition name="fade" mode="out-in">
-      <router-view></router-view>
-    </transition>
+  <div class="app">
+    <div class="content">
+      <div class="head">
+        <Top></Top>
+      </div>
+      <div class="store">
+        <transition name="fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script>
-
-import Top from './components/common/Top'
-
-export default {
-  name: 'App',
-  components: {
-    Top,
-  },
-  created() {
-    let user = JSON.parse(window.localStorage.getItem('access-user'));
-    let result = {
-      userPhone:user.userPhone,
-      token:user.token
-    };
-    this.$store.dispatch("login/login",result);
-  },
-}
+  import Top from './components/common/Top'
+  export default {
+    name: 'App',
+    components: {
+      Top,
+    },
+    created() {
+      let user = JSON.parse(window.localStorage.getItem('access-user'));
+      let result = {
+        userPhone:user.userPhone,
+        token:user.token
+      };
+      this.$store.dispatch("login/login",result);
+    },
+  }
 </script>
 
 <style scoped>
@@ -36,5 +41,22 @@ export default {
     left: 0px;
     bottom: 0px;
     right: 0px;
+  }
+  .content{
+    height: 100%;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+  }
+  .head{
+    flex: 0 0 60px;
+    width: 100%;
+  }
+  .store{
+    position: relative;
+    flex: 0 10 1000px;
+    height: 100%;
+    background-color: white;
   }
 </style>

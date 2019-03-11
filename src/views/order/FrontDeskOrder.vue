@@ -4,52 +4,50 @@
  *前台点餐
  */
 <template>
-  <div class="frontDeskOrder">
-    <div class="headNav">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">前台点餐</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div style="position: relative;top: 40px">
-      <el-row >
-        <el-col :span="20" style="position: relative;left: 30px">
-          <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
-        </el-col>
-        <el-col :span="2"  align="center">
-          <el-button type="primary" icon="el-icon-plus" @click="addOrder()">点餐</el-button>
-        </el-col>
-      </el-row>
-      <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column width="200" prop="orderId" label="订单编号" align="center"></el-table-column>
-        <el-table-column width="100" prop="tableId" label="餐桌编号" align="center"></el-table-column>
-        <el-table-column width="100" prop="personNum" label="就餐人数" align="center"></el-table-column>
-        <el-table-column width="100" prop="amount" align="center" label="订单金额" ></el-table-column>
-        <el-table-column width="120px" prop="vipAmount" label="会员金额" align="center"></el-table-column>
-        <el-table-column width="100" prop="realAmount" label="实收金额" align="center"></el-table-column>
-        <el-table-column width="180" prop="payType" label="支付方式" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.payType===1" type="success">未支付</el-tag>
-            <el-tag v-else-if="scope.row.payType===2" type="info">前台支付</el-tag>
-            <el-tag v-else-if="scope.row.payType===3" type="danger">支付宝支付</el-tag>
-            <el-tag v-else-if="scope.row.payType===4" type="danger">微信支付</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column width="180" prop="createTime" label="订单日期" align="center"></el-table-column>
-        <el-table-column width="180" label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="orderInfo(scope.row)">查看详情</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.orderId,scope.row.tableId)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-row style="text-align:center;margin-top:15px;">
+  <div class="front-order-list">
+    <div class="front-order-list-content">
+      <div class="panel-heading">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">前台点餐</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="front-order-list-search">
+        <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
+        <el-button type="primary" style="height: 40px" icon="el-icon-plus" @click="addOrder()">点餐</el-button>
+      </div>
+      <div class="front-order-list-table">
+        <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column width="140" prop="orderId" label="订单编号" align="center"></el-table-column>
+          <el-table-column width="100" prop="tableId" label="餐桌编号" align="center"></el-table-column>
+          <el-table-column width="80" prop="personNum" label="就餐人数" align="center"></el-table-column>
+          <el-table-column width="100" prop="amount" align="center" label="订单金额" ></el-table-column>
+          <el-table-column width="80" prop="vipAmount" label="会员金额" align="center"></el-table-column>
+          <el-table-column width="100" prop="realAmount" label="实收金额" align="center"></el-table-column>
+          <el-table-column width="100" prop="payType" label="支付方式" align="center">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.payType===1" type="success">未支付</el-tag>
+              <el-tag v-else-if="scope.row.payType===2" type="info">前台支付</el-tag>
+              <el-tag v-else-if="scope.row.payType===3" type="danger">支付宝支付</el-tag>
+              <el-tag v-else-if="scope.row.payType===4" type="danger">微信支付</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column width="180" prop="createTime" label="订单日期" align="center"></el-table-column>
+          <el-table-column width="180" label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="orderInfo(scope.row)">查看详情</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.row.orderId,scope.row.tableId)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="front-order-list-page">
         <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next,jumper" :total="total">
         </el-pagination>
-      </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -202,16 +200,31 @@ export default {
 };
 </script>
 
-<style scoped>
-  .frontDeskOrder{
+<style scoped lang="stylus" type="text/stylus">
+  .front-order-list
     position: relative;
-    height: 100%;
-    top: 10px;
-  }
-  .headNav{
-    position: relative;
-    top: 10px;
-    left: 20px;
-    width: 680px;
-  }
+    width 100%
+    height 100%
+    .front-order-list-content
+      position absolute
+      width 98%
+      height 100%
+      left 1%
+      .panel-heading
+        position relative
+        top 20px
+      .front-order-list-search
+        position: relative;
+        top 40px
+        display flex
+        flex-direction row
+        flex-wrap wrap
+      .front-order-list-table
+        position relative
+        width 100%
+        top 50px
+      .front-order-list-page
+        position relative
+        top 80px
+        text-align center
 </style>

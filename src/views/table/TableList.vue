@@ -4,45 +4,43 @@
  *餐桌管理
  */
 <template>
-  <div class="deviceManage">
-    <div style="width: 100%;height: 100%">
-      <el-row >
-        <el-col :span="16" style="position: relative;left: 30px">
-          <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
-        </el-col>
-        <el-col :span="6"  align="center">
-          <el-button type="primary" icon="el-icon-plus" @click="addStoreTable()">新增餐桌</el-button>
-        </el-col>
-      </el-row>
-      <el-table v-loading="loading" :data="list" style="width:97%;left: 2%" @row-click="clickRow" border stripe ref="moviesTable">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column width="140" prop="tableId" label="餐桌编号" align="center"></el-table-column>
-        <el-table-column width="100" prop="capacity" label="容纳人数" align="center"></el-table-column>
-        <el-table-column width="180" prop="address" label="餐桌位置" align="center"></el-table-column>
-        <el-table-column width="100" prop="personNum" label="就餐人数" align="center"></el-table-column>
-        <el-table-column width="150px" prop="status" label="使用状态" align="center">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.status===1" type="success">空闲</el-tag>
-            <el-tag v-else-if="scope.row.status===2" type="danger">就餐中</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column width="120" prop="foodImg" align="center" label="二维码" >
-          <template slot-scope="scope">
-            <img  :src="scope.row.qrCodeUrl" alt="" style="width: 100px;height: 90px">
-          </template>
-        </el-table-column>
-        <el-table-column width="180" prop="createTime" label="添加日期" align="center"></el-table-column>
-        <el-table-column width="160" label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.tableId)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-row style="text-align:center;margin-top:15px;">
+  <div class="tables-list">
+    <div class="tables-list-content">
+      <div class="tables-list-search">
+        <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
+        <el-button type="primary" style="height: 40px" icon="el-icon-plus" @click="addStoreTable()">新增餐桌</el-button>
+      </div>
+      <div class="tables-list-table">
+        <el-table v-loading="loading" :data="list" @row-click="clickRow" border stripe ref="moviesTable">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column width="140" prop="tableId" label="餐桌编号" align="center"></el-table-column>
+          <el-table-column width="100" prop="capacity" label="容纳人数" align="center"></el-table-column>
+          <el-table-column width="180" prop="address" label="餐桌位置" align="center"></el-table-column>
+          <el-table-column width="100" prop="personNum" label="就餐人数" align="center"></el-table-column>
+          <el-table-column width="150px" prop="status" label="使用状态" align="center">
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.status===1" type="success">空闲</el-tag>
+              <el-tag v-else-if="scope.row.status===2" type="danger">就餐中</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column width="100" prop="foodImg" align="center" label="餐桌二维码" >
+            <template slot-scope="scope">
+              <img  :src="scope.row.qrCodeUrl" alt="" style="width: 80px;height: 80px">
+            </template>
+          </el-table-column>
+          <el-table-column width="180" prop="createTime" label="添加日期" align="center"></el-table-column>
+          <el-table-column width="160" label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.row.tableId)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="tables-list-page">
         <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next,jumper" :total="total">
         </el-pagination>
-      </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -201,21 +199,28 @@ export default {
 };
 </script>
 
-<style>
-  .deviceManage{
+<style scoped lang="stylus" type="text/stylus">
+  .tables-list
     position: relative;
-    height: 100%;
-    top: 10px;
-  }
-  .panelHeading{
-    height: 20px;
-    margin: 0px;
-    padding: 10px;
-    position: relative;
-  }
-  .panel-text{
-    position:relative;
-    left:30px;
-    font-size:18px;
-  }
+    width 100%
+    height 100%
+    .tables-list-content
+      position absolute
+      width 98%
+      height 100%
+      left 1%
+      .tables-list-search
+        position: relative;
+        top 20px
+        display flex
+        flex-direction row
+        flex-wrap wrap
+      .tables-list-table
+        position relative
+        width 100%
+        top 40px
+      .tables-list-page
+        position relative
+        top 50px
+        text-align center
 </style>

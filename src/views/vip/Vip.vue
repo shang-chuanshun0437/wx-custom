@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="vip-wrapper">
       <VipLeftSideNav></VipLeftSideNav>
     </div>
 </template>
@@ -28,6 +28,11 @@ export default {
 </script>
 
 <style scoped>
-
+  .vip-wrapper{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+  }
 
 </style>

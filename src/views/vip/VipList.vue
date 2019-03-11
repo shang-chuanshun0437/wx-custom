@@ -4,43 +4,41 @@
  *会员管理
  */
 <template>
-  <div class="vip">
-    <div class="headNav">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/user/store/vip/list' }" style="font-size: 17px;">会员管理</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">会员列表</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div style="position: relative;top: 40px;width: 100%;height: 100%">
-      <el-row >
-        <el-col :span="17" style="position: relative;left: 30px">
-          <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
-        </el-col>
-        <el-col :span="2"  align="center">
-          <el-button type="primary" icon="el-icon-plus" @click="addVip()">添加会员</el-button>
-        </el-col>
-      </el-row>
-      <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column width="80" prop="id" label="ID" align="center"></el-table-column>
-        <el-table-column width="160" prop="vipId" label="会员编号" align="center"></el-table-column>
-        <el-table-column width="140" prop="realAmount" label="会员充值金额" align="center"></el-table-column>
-        <el-table-column width="80" prop="consumCount" align="center" label="消费次数" ></el-table-column>
-        <el-table-column width="180" prop="updateTime" align="center" label="最近一次消费" ></el-table-column>
-        <el-table-column width="180" prop="validTime" align="center" label="有效期" ></el-table-column>
-        <el-table-column width="180" prop="createTime" label="添加日期" align="center"></el-table-column>
-        <el-table-column width="280" label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="mini" type="success" @click="edit(scope.row)">修改</el-button>
-            <el-button size="mini" @click="consumeRecord(scope.row.vipId)">消费记录</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.row.vipId)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-row style="text-align:center;margin-top:15px;">
+  <div class="vip-list">
+    <div class="vip-list-content">
+      <div class="panel-heading">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/user/store/vip/list' }" style="font-size: 17px;">会员管理</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">会员列表</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="vip-list-search">
+        <SearchForm :searchData="searchData" @handleSubmit="handleSearch"></SearchForm>
+        <el-button type="primary" icon="el-icon-plus" @click="addVip()" style="height: 40px">添加会员</el-button>
+      </div>
+      <div class="vip-list-table">
+        <el-table v-loading="loading" :data="list" style="width:98%;left: 1%" @row-click="clickRow" border stripe ref="moviesTable">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column width="80" prop="id" label="ID" align="center"></el-table-column>
+          <el-table-column width="160" prop="vipId" label="会员编号" align="center"></el-table-column>
+          <el-table-column width="140" prop="realAmount" label="会员充值金额" align="center"></el-table-column>
+          <el-table-column width="80" prop="consumCount" align="center" label="消费次数" ></el-table-column>
+          <el-table-column width="180" prop="updateTime" align="center" label="最近一次消费" ></el-table-column>
+          <el-table-column width="180" prop="validTime" align="center" label="有效期" ></el-table-column>
+          <el-table-column width="180" prop="createTime" label="添加日期" align="center"></el-table-column>
+          <el-table-column width="280" label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button size="mini" type="success" @click="edit(scope.row)">修改</el-button>
+              <el-button size="mini" @click="consumeRecord(scope.row.vipId)">消费记录</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.row.vipId)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="vip-list-page">
         <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="10" layout="total, prev, pager, next,jumper" :total="total">
         </el-pagination>
-      </el-row>
+      </div>
     </div>
     <AddVip :show.sync="addVipShow"></AddVip>
     <EditVip :show.sync="editVipShow" :row.sync="selected"></EditVip>
@@ -191,16 +189,31 @@ export default {
 };
 </script>
 
-<style scoped>
-  .vip{
+<style scoped lang="stylus" type="text/stylus">
+  .vip-list
     position: relative;
-    height: 100%;
-    top: 10px;
-  }
-  .headNav{
-    position: relative;
-    top: 10px;
-    left: 20px;
-    width: 680px;
-  }
+    width 100%
+    height 100%
+    .vip-list-content
+      position absolute
+      width 98%
+      height 100%
+      left 1%
+      .panel-heading
+        position relative
+        top 20px
+      .vip-list-search
+        position: relative;
+        top 40px
+        display flex
+        flex-direction row
+        flex-wrap wrap
+      .vip-list-table
+        position relative
+        width 100%
+        top 50px
+      .vip-list-page
+        position relative
+        top 80px
+        text-align center
 </style>

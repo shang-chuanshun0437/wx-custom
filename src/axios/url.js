@@ -6,15 +6,21 @@
 export const GET_VERIFYCATION_CODE = "/user/getVerificationCode"; //获取验证码
 export const REGISTER_URL = "/user/register"; //注册
 export const LOGIN_URL = "/user/login"; //登录
+
+//用户信息
+export const USER_INFO_URL = "/user/query/userInfo"; //获取用户信息
+export const USER_INFO_UPDATE_URL = "/user/update/userInfo"; //更新用户信息
+
 //店铺
-export const STORE_LIST_URL = "/store/query/list"; //获取管理的设备
-export const DEVICE_UNMANAGE_URL = "/device/unManage/queryDeviceList"; //获取普通的设备
+export const STORE_LIST_URL = "/store/query/list"; //获取店铺列表
 export const ADD_STORE_URL = "/store/add"; //添加店铺
 export const DELETE_STORE = "/store/delete"; //删除店铺
 export const UPDATE_STORE = "/store/update"; //更新店铺
 export const DEVICE_BIND4USER_URL = "/user/device/bindDevice4User"; //为其他用户绑定设备
 export const DEVICE_UNBIND4USER_URL = "/user/device/unbindDevice4User"; //设备管理员解绑其他用户的设备
 export const MODIFY_EXPIRE_URL = "/user/device/modify/user"; //设备管理员修改用户的有效期
+export const QUERY_STORE_SALES_URL = "/user/query/all/sales"; //查询所有店铺的销售总额
+export const QUERY_STORE_PERIOD_SALES_URL = "/user/query/time/period/sales"; //查询店铺在每一段时间的销售额度
 
 //餐桌
 export const ADD_STORE_TABLE_URL = "/store/table/add"; //添加餐桌
@@ -49,6 +55,7 @@ export const QUERY_VIP_CONSUME_RECORD = "/store/vip/query/consume"; //查询会�
 export const QUERY_ADD_NUM = "/store/vip/query/addNum"; //查询在某段时间内vip的新增数量
 export const QUERY_ALL_VIP_CONSUME = "/store/vip/query/allVip/consume"; //查询在某段时间内所有vip的消费金额
 export const QUERY_ALL_VIP_CONSUME_PERCENT = "/store/vip/query/allVip/consume/percent"; //查询在某段时间内所有vip的消费金额所占比例
+export const QUERY_VIP_NUM = "/store/vip/query/list/count"; //查询会员数量
 
 //上传资源
 export const UPLOAD_IMG_URL = "/upload/img"; //上传图片
@@ -62,6 +69,4 @@ export const ACCOUNT_INFO_URL = "/user/query/userInfo"; //查询账户详情
 export const ACCOUNT_UPDATE_URL = "/user/updateUser"; //查询账户详情
 export const MODIFY_PWD_URL = "/user/modifyPassword"; //修改账户的密码
 
-//开门记录
-export const DEVICE_OPEN_HISTORY_URL = "/open/door/history/user/query/list"; //查询管理员设备下的所有用户
 

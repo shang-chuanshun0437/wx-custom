@@ -4,23 +4,22 @@
  *餐桌管理
  */
 <template>
-  <div class="tableOrGraph">
-    <div class="headNav">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
-        <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-
-    <el-switch style="left: 30px;width: 240px;top: 40px" v-model="tableOrGraph"
-       active-text="图形展示" inactive-text="列表展示">
-    </el-switch>
-    <div style="position: relative;top: 40px;" v-if="!tableOrGraph">
-      <TableList></TableList>
-    </div>
-    <div style = "position: relative;top: 40px;" v-if="tableOrGraph">
-      <GraphList ></GraphList>
+  <div class="table-graph-list">
+    <div class="stores-graph-list-content">
+      <div class="panel-heading">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/user/store/list' }" style="font-size: 17px;">我的店铺</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">店铺列表</el-breadcrumb-item>
+          <el-breadcrumb-item style="font-size: 17px;">{{storeName}}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="table-graph-list-select" >
+        <el-switch v-model="tableOrGraph" active-text="图形展示" inactive-text="列表展示"></el-switch>
+      </div>
+      <div class="table-graph-list-or">
+        <TableList v-if="!tableOrGraph"></TableList>
+        <GraphList v-if="tableOrGraph"></GraphList>
+      </div>
     </div>
   </div>
 </template>
@@ -52,16 +51,23 @@ export default {
 };
 </script>
 
-<style scoped>
-  .tableOrGraph{
+<style scoped lang="stylus" type="text/stylus">
+  .table-graph-list
     position: relative;
-    height: 100%;
-    top: 10px;
-  }
-  .headNav{
-    position: relative;
-    top: 20px;
-    left: 20px;
-    width: 380px;
-  }
+    width 100%
+    height 100%
+    .stores-graph-list-content
+      position absolute
+      width 98%
+      height 100%
+      left 1%
+      .panel-heading
+        position relative
+        top 20px
+      .table-graph-list-select
+        position: relative;
+        top 40px
+      .table-graph-list-or
+        position relative
+        top 50px
 </style>
