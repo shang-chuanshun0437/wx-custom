@@ -6,6 +6,7 @@ import Home from '@/components/Home'
 import Summary from '@/components/Summary'
 
 import Stores from '../views/store/Stores'
+import StoreSales from '../views/order/StoreSales'
 import StoresList from '../views/store/StoresList'
 import SystemSettings from '../views/store/SystemSettings'
 import SaleStatistics from '../views/sale/SaleStatistics'
@@ -24,6 +25,7 @@ import AddOrder from '../views/order/AddOrder'
 import AddOrderInfo from '../views/order/AddOrderInfo'
 import CompleteOrder from '../views/order/CompleteOrder'
 import FrontDeskPay from '../views/order/FrontDeskPay'
+import WxOrder from '../views/order/WxOrder'
 
 import User from '../views/user/User'
 import UserList from '../views/user/UserList'
@@ -96,6 +98,8 @@ let router = new Router({
               { path: '/user/store/list/storeInfo/frontDeskOrder/orderInfo', component: OrderInfo, name: 'orderInfo' },
               { path: '/user/store/list/storeInfo/CompleteOrder', component: CompleteOrder, name: 'completeOrder' },
               { path: '/user/store/list/storeInfo/frontDeskPay', component: FrontDeskPay, name: 'frontDeskPay' },
+              { path: '/user/store/list/storeInfo/wxOrder', component: WxOrder, name: 'wxOrder' },
+              { path: '/user/store/list/storeInfo/storeSales', component: StoreSales, name: 'storeSales' },
             ]
         },
         { path: '/user/store/list/storeInfo/addOrder', component: AddOrder, name: 'addOrder' },

@@ -13,6 +13,7 @@ import storeOrder from "./modules/storeOrder";
 import orderInfo from "./modules/orderInfo";
 import vip from "./modules/vip";
 import storeSales from "./modules/storeSales";
+import storeWxOrder from "./modules/storeWxOrder";
 
 import getters from "./getters";
 Vue.use(Vuex);
@@ -30,7 +31,8 @@ export default new Vuex.Store({
       storeOrder,
       orderInfo,
       vip,
-      storeSales
+      storeSales,
+      storeWxOrder
     },
     getters
 });

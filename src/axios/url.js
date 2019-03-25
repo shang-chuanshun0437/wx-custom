@@ -21,6 +21,7 @@ export const DEVICE_UNBIND4USER_URL = "/user/device/unbindDevice4User"; //设备
 export const MODIFY_EXPIRE_URL = "/user/device/modify/user"; //设备管理员修改用户的有效期
 export const QUERY_STORE_SALES_URL = "/user/query/all/sales"; //查询所有店铺的销售总额
 export const QUERY_STORE_PERIOD_SALES_URL = "/user/query/time/period/sales"; //查询店铺在每一段时间的销售额度
+export const QUERY_STOREID_SALES_URL = "/store/order/statistic"; //查询店铺在每一段时间的销售额度
 
 //餐桌
 export const ADD_STORE_TABLE_URL = "/store/table/add"; //添加餐桌
@@ -45,6 +46,7 @@ export const DELETE_ORDER = "/store/order/delete"; //删除订单
 export const DELETE_ORDER_INFO = "/store/order/info/delete"; //删除订单中的某一个商品
 export const ADD_ORDER_INFO = "/store/order/info/add"; //向订单中增加一个商品
 export const EXPORT_REPORT = "/export/report/excel"; //导出报表
+export const MODIFY_ORDER_STATUS = "/store/order/update/status"; //更新订单状态
 
 //会员
 export const QUERY_VIP = "/store/vip/query/list"; //查询会员列表
@@ -66,7 +68,7 @@ export const DEVICE_USER_URL = "/user/device/manage/queryUserList"; //查询管�
 
 //账户
 export const ACCOUNT_INFO_URL = "/user/query/userInfo"; //查询账户详情
-export const ACCOUNT_UPDATE_URL = "/user/updateUser"; //查询账户详情
+export const ACCOUNT_UPDATE_URL = "/user/update/userInfo"; //更新账户
 export const MODIFY_PWD_URL = "/user/modifyPassword"; //修改账户的密码
 
 

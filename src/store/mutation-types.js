@@ -24,6 +24,7 @@ export const MENU_LIST = "MENU_LIST";
 export const ORDER_LIST = "ORDER_LIST";
 export const ORDER_INFO_LIST = "ORDER_INFO_LIST";
 export const STORE_SALES_LIST = "STORE_SALES_LIST";
+export const WX_ORDER_LIST = "WX_ORDER_LIST";
 
 //子用户
 export const DEVICE_USER_LIST = "DEVICE_USER_LIST";
