@@ -66,7 +66,7 @@
     },
     mounted() {
       if ('WebSocket' in window) {
-        this.websocket = new WebSocket('ws://192.168.1.4:8080/smartlock/websocket?storeId=' + this.storeId);
+        this.websocket = new WebSocket('ws://47.94.86.112:8080/smartlock/websocket?storeId=' + this.storeId);
         this.initWebSocket();
       } else {
         alert('not support websocket')

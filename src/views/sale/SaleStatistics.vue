@@ -110,7 +110,11 @@
           .then(res => {
             if (res.result.retCode === 0) {
               this.allSales = res.allSales.statistics;
-              this.eachStoreSales = res.eachStoreSales
+              this.eachStoreSales = res.eachStoreSales;
+              if(this.eachStoreSales == null){
+                this.storeNum = 0;
+                return;
+              }
               this.storeNum = this.eachStoreSales.length;
 
               if (this.storeNum >= 1) {

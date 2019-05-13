@@ -18,6 +18,30 @@
           <el-radio :label="2">在线支付</el-radio>
         </el-radio-group>
       </div>
+      <div class="system-setting-content-wx" >
+        <el-collapse >
+          <el-collapse-item title="微信支付参数设置">
+            <el-form ref="form" :model="wx"  label-width="80px">
+              <el-form-item>
+                <span style = "font-size: 17px;">公众账号ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <el-input style = "width: 300px" v-model="wx.appId" ></el-input>
+              </el-form-item>
+              <el-form-item>
+                <span style = "font-size: 17px;">商户号：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <el-input style = "width: 300px" v-model="wx.mchId" ></el-input>
+              </el-form-item>
+              <el-form-item>
+                <span style = "font-size: 17px;">openId：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <el-input style = "width: 300px" v-model="wx.openId" ></el-input>
+              </el-form-item>
+              <el-form-item>
+                <span style = "font-size: 17px;">密钥key：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <el-input style = "width: 300px" v-model="wx.wxKey"></el-input>
+              </el-form-item>
+            </el-form>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
       <el-button style="position: relative;top: 150px;width: 200px" type="primary" round @click="save">保存</el-button>
     </div>
   </div>
@@ -35,7 +59,13 @@
     },
     data() {
       return {
-        payType: ''
+        payType: '',
+        wx: {
+          appId: '',
+          mchId: '',
+          openId: '',
+          wxKey: '',
+        }
       };
     },
     created() {
@@ -47,11 +77,17 @@
         let user = JSON.parse(window.localStorage.getItem('access-user'));
         var param = Object.assign({}, {userPhone: user.userPhone , token: user.token });
 
-        //查询店铺列表
-        API.POST(URL.USER_INFO_URL, param)
+        //查询商家设置
+        API.POST(URL.PAY_SETTING_QUERY_URL, param)
           .then(res => {
             if (res.result.retCode === 0) {
-              this.payType = res.user.payType
+              if (res.paySetting != null){
+                this.payType = res.paySetting.payType;
+                this.wx.appId = res.paySetting.appId;
+                this.wx.mchId = res.paySetting.mchId;
+                this.wx.openId = res.paySetting.openId;
+                this.wx.wxKey = res.paySetting.wxKey;
+              }
             }
           })
           .catch(err => {
@@ -61,10 +97,11 @@
       },
       save(){
         let user = JSON.parse(window.localStorage.getItem('access-user'));
-        var param = Object.assign({}, {userPhone: user.userPhone , token: user.token,payType: this.payType });
+        var param = Object.assign({}, {userPhone: user.userPhone , token: user.token,payType: this.payType,
+          appId: this.wx.appId,mchId: this.wx.mchId,openId: this.wx.openId,wxKey: this.wx.wxKey});
 
-        //查询店铺列表
-        API.POST(URL.USER_INFO_UPDATE_URL, param)
+        //更新商户支付参数
+        API.POST(URL.PAY_SETTING_UPDATE_URL, param)
           .then(res => {
             if (res.result.retCode === 0) {
               this.$message({
@@ -98,4 +135,8 @@
       .system-setting-content-pay
          position relative
          top 60px
+      .system-setting-content-wx
+         position relative
+         top 100px
+         width 600px
 </style>

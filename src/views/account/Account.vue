@@ -1,6 +1,5 @@
 <template>
   <div class = "account-list">
-
           <el-card class="accountCard">
             <div slot="header">
               &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
@@ -19,10 +18,6 @@
                 <el-input style = "width: 300px" v-model="form.shopTotal" :disabled="true"></el-input>
               </el-form-item>
               <el-form-item>
-              <span style = "font-size: 17px;">微信ID：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-              <el-input style = "width: 300px" v-model="form.wxAppId" :disabled="editable"></el-input>
-              </el-form-item>
-              <el-form-item>
                 <span style = "font-size: 17px;">地址：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <el-input style = "width: 300px" v-model="form.userAddress" :disabled="editable"></el-input>
               </el-form-item>
@@ -32,7 +27,6 @@
               </el-form-item>
             </el-form>
           </el-card>
-
   </div>
 
 </template>
@@ -49,7 +43,6 @@
         form: {
           userPhone: '',
           shopTotal: '',
-          wxAppId: '',
           userAddress: '',
           createTime: '',
         }
@@ -71,7 +64,6 @@
             if (res.result.retCode === 0) {
               this.form.userPhone = res.user.userPhone;
               this.form.shopTotal = res.user.shopTotal;
-              this.form.wxAppId = res.user.wxAppId;
               this.form.userAddress = res.user.userAddress;
               this.form.createTime = res.user.createTime;
             }
@@ -89,7 +81,7 @@
         //保存账户详情
         let user = JSON.parse(window.localStorage.getItem('access-user'));
         var param = Object.assign({}, {userPhone: user.userPhone , token: user.token,
-          shopTotal: this.form.shopTotal,wxAppId: this.form.wxAppId,userAddress: this.form.userAddress});
+          shopTotal: this.form.shopTotal,userAddress: this.form.userAddress});
 
         API.POST(URL.ACCOUNT_UPDATE_URL, param)
           .then(res => {

@@ -10,6 +10,8 @@ export const LOGIN_URL = "/user/login"; //登录
 //用户信息
 export const USER_INFO_URL = "/user/query/userInfo"; //获取用户信息
 export const USER_INFO_UPDATE_URL = "/user/update/userInfo"; //更新用户信息
+export const PAY_SETTING_QUERY_URL = "/user/query/paySetting"; //查询用户支付设置
+export const PAY_SETTING_UPDATE_URL = "/user/update/paySetting"; //查询用户支付设置
 
 //店铺
 export const STORE_LIST_URL = "/store/query/list"; //获取店铺列表

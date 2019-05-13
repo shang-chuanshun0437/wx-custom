@@ -8,6 +8,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import "./assets/icon/iconfont.css"
 import swal from "sweetalert";
+import 'babel-polyfill'
 //引入axios
 import Axios from 'axios'
 //给vue挂载一个属性

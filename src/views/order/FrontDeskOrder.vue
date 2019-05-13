@@ -96,7 +96,6 @@ export default {
       storeName: "未知",
       filters: {
         tableId: "",
-        payType: "",
         beginTime: "",
         endTime: "",
       },
@@ -133,11 +132,6 @@ export default {
 
     handleSearch(params) {
       this.filters=Object.assign({},params);
-      if (this.filters.payType == '未支付'){
-        this.filters.payType = 1;
-      }else if (this.filters.payType == '前台支付'){
-        this.filters.payType = 2;
-      }
       this.refresh();
     },
     addOrder() {
